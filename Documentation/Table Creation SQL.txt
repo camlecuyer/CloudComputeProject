@@ -1,0 +1,166 @@
+CREATE TABLE [dbo].[Users]
+(
+	[UserID] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [UserEmail] VARCHAR(45) NOT NULL UNIQUE, 
+    [UserPassword] VARCHAR(45) NOT NULL
+)
+
+CREATE TABLE [dbo].[Categories]
+(
+	[CategoryID] CHAR(5) NOT NULL PRIMARY KEY, 
+    [CatName] VARCHAR(30) NOT NULL UNIQUE,
+    [CatDesc] VARCHAR(150) NOT NULL
+)
+// SQLServer
+CREATE TABLE [dbo].[Buildings]
+(
+	[BuildingID] CHAR(6) NOT NULL PRIMARY KEY, 
+    [BuildingName] VARCHAR(100) NOT NULL
+)
+
+CREATE TABLE [dbo].[Photos]
+(
+	[PhotoID] BIGINT NOT NULL PRIMARY KEY IDENTITY, 
+    [Photo] VARBINARY(MAX) NOT NULL 
+)
+
+CREATE TABLE [dbo].[Divisions]
+(
+	[DivisionID] CHAR(6) NOT NULL PRIMARY KEY, 
+    [DivisionName] VARCHAR(45) NOT NULL 
+)
+
+CREATE TABLE [dbo].[Issues]
+(
+	[IssueID] BIGINT NOT NULL PRIMARY KEY IDENTITY, 
+    [CategoryID] CHAR(5) NOT NULL,
+    [BuildingID] CHAR(6) NOT NULL, 
+    [PhotoID] BIGINT,
+    [IssueDesc] VARCHAR(150) NOT NULL,
+    [IssueDateOpened] DATE NOT NULL,
+    [IssueDateClosed] DATE NOT NULL,
+    [IssueFloorNumber] INT,
+    [IsClosed] BIT NOT NULL DEFAULT 0, 
+    [IssueEmail] VARCHAR(30) NOT NULL,
+    [IssuePhone] VARCHAR(15) NOT NULL,
+    [IssueFirstName] VARCHAR(30) NOT NULL,
+    [IssueLocation] VARCHAR(30) NOT NULL,
+    CONSTRAINT [FK_Issues_Categories] FOREIGN KEY ([CategoryID]) REFERENCES [Categories]([CategoryID]),
+    CONSTRAINT [FK_Issues_Buildings] FOREIGN KEY ([BuildingID]) REFERENCES [Buildings]([BuildingID]),
+    CONSTRAINT [FK_Issues_Photos] FOREIGN KEY ([PhotoID]) REFERENCES [Photos]([PhotoID])
+)
+
+CREATE TABLE [dbo].[Tasks]
+(
+	[TaskID] BIGINT NOT NULL PRIMARY KEY IDENTITY, 
+    [DivisionID] CHAR(5) NOT NULL,
+    [BuildingID] CHAR(6) NOT NULL, 
+    [IssueID] BIGINT,
+    [IssueDesc] VARCHAR(150) NOT NULL,
+    [TaskDateOpened] DATE NOT NULL,
+    [TaskDateClosed] DATE NOT NULL,
+    [TaskFloorNumber] INT,
+    [IsClosed] BIT NOT NULL DEFAULT 0, 
+    [TaskLocation] VARCHAR(30) NOT NULL,
+    CONSTRAINT [FK_Tasks_Divisions] FOREIGN KEY ([DivisionID]) REFERENCES [Divisions]([DivisionID]),
+    CONSTRAINT [FK_Tasks_Buildings] FOREIGN KEY ([BuildingID]) REFERENCES [Buildings]([BuildingID]),
+    CONSTRAINT [FK_Tasks_Issues] FOREIGN KEY ([IssueID]) REFERENCES [Issues]([IssueID])
+)
+
+// MySQL
+CREATE TABLE `reportResponse`.`Users` (
+  `UserID` INT NOT NULL AUTO_INCREMENT,
+  `UserEmail` VARCHAR(45) NOT NULL,
+  `UserPassword` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`UserID`));
+
+CREATE TABLE `reportResponse`.`Categories` (
+  `CategoryID` CHAR(5) NOT NULL,
+  `CatName` VARCHAR(30) NOT NULL,
+  `CatDesc` VARCHAR(150) NOT NULL,
+  PRIMARY KEY (`CategoryID`),
+  UNIQUE INDEX `CatName_UNIQUE` (`CatName` ASC),
+  UNIQUE INDEX `CategoryID_UNIQUE` (`CategoryID` ASC));
+
+CREATE TABLE `reportResponse`.`Buildings` (
+  `BuildingID` CHAR(6) NOT NULL,
+  `BuildingName` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`BuildingID`),
+  UNIQUE INDEX `BuildingID_UNIQUE` (`BuildingID` ASC));
+
+CREATE TABLE `reportResponse`.`Photos` (
+  `PhotoID` BIGINT NOT NULL AUTO_INCREMENT,
+  `PhotoImage` BLOB NOT NULL,
+  PRIMARY KEY (`PhotoID`));
+
+CREATE TABLE `reportResponse`.`Issues` (
+  `IssueID` INT NOT NULL AUTO_INCREMENT,
+  `CategoryID` CHAR(5) NOT NULL,
+  `BuildingID` CHAR(6) NOT NULL,
+  `PhotoID` BIGINT NOT NULL,
+  `IssueDesc` VARCHAR(150) NOT NULL,
+  `IssueDateOpened` DATE NOT NULL,
+  `IssueDateClosed` DATE NULL,
+  `IssueFloorNumber` INT NULL,
+  `IssueIsClosed` TINYINT NULL DEFAULT 0,
+  `IssueEmail` VARCHAR(30) NOT NULL,
+  `IssuePhone` VARCHAR(15) NOT NULL,
+  `IssueFirstName` VARCHAR(30) NOT NULL,
+  `IssueLocation` VARCHAR(30) NULL,
+  PRIMARY KEY (`IssueID`),
+  INDEX `CategoryID_idx` (`CategoryID` ASC),
+  INDEX `BuildingID_idx` (`BuildingID` ASC),
+  INDEX `PhotoID_idx` (`PhotoID` ASC),
+  CONSTRAINT `CategoryID`
+    FOREIGN KEY (`CategoryID`)
+    REFERENCES `reportResponse`.`Categories` (`CategoryID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `BuildingID`
+    FOREIGN KEY (`BuildingID`)
+    REFERENCES `reportResponse`.`Buildings` (`BuildingID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `PhotoID`
+    FOREIGN KEY (`PhotoID`)
+    REFERENCES `reportResponse`.`Photos` (`PhotoID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE `reportResponse`.`Divisions` (
+  `DivisionID` CHAR(6) NOT NULL,
+  `DivisionName` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`DivisionID`),
+  UNIQUE INDEX `DivisionID_UNIQUE` (`DivisionID` ASC));
+
+CREATE TABLE `reportResponse`.`Tasks` (
+  `TaskID` BIGINT NOT NULL AUTO_INCREMENT,
+  `DivisionID` CHAR(6) NOT NULL,
+  `BuildingID` CHAR(6) NOT NULL,
+  `IssueID` BIGINT NULL,
+  `TaskDesc` VARCHAR(150) NOT NULL,
+  `TaskDateOpened` DATE NOT NULL,
+  `TaskDateClosed` DATE NULL,
+  `TaskFloorNumber` INT NULL,
+  `TaskIsClosed` TINYINT NULL DEFAULT 0,
+  `TaskLocation` VARCHAR(30) NULL,
+  PRIMARY KEY (`TaskID`),
+  INDEX `DivisionID_idx` (`DivisionID` ASC),
+  INDEX `BuildingID_idx` (`BuildingID` ASC),
+  INDEX `IssueID_idx` (`IssueID` ASC),
+  CONSTRAINT `DivisionID`
+    FOREIGN KEY (`DivisionID`)
+    REFERENCES `reportResponse`.`Divisions` (`DivisionID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `TaskBuildingID`
+    FOREIGN KEY (`BuildingID`)
+    REFERENCES `reportResponse`.`Buildings` (`BuildingID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `IssueID`
+    FOREIGN KEY (`IssueID`)
+    REFERENCES `reportResponse`.`Issues` (`IssueID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+

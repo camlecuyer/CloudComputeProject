@@ -1,0 +1,173 @@
+// categories
+INSERT INTO Categories (CategoryID, CatName, CatDesc) VALUES ('TRSHR', 'Trash/Recycling/Cleaning', 'For issues with overflowing trashcans or recycling bins, or for issues with needing cleaning performed');
+INSERT INTO Categories (CategoryID, CatName, CatDesc) VALUES ('ELCLI', 'Electrical/Lighting', 'For issues with power outages, broken outlets, or broken lights');
+INSERT INTO Categories (CategoryID, CatName, CatDesc) VALUES ('WTRPL', 'Water/Plumbing', 'For issues with leaky or broken pipes, broken or clogged toilets or sinks, or broken water fountains');
+INSERT INTO Categories (CategoryID, CatName, CatDesc) VALUES ('HATAC', 'Heating/AC', 'For issues with broken or faulty heating or air conditioning systems');
+INSERT INTO Categories (CategoryID, CatName, CatDesc) VALUES ('PSTBG', 'Pests/Bugs', 'For issues with wild animals, rodents, or bugs');
+INSERT INTO Categories (CategoryID, CatName, CatDesc) VALUES ('SNWIC', 'Snow/Ice', 'For issues with snow, ice, or frozen objects');
+INSERT INTO Categories (CategoryID, CatName, CatDesc) VALUES ('LWNLD', 'Lawncare/Landscaping', 'For issues with fallen limbs, overgrown shrubs, long grass, or broken outdoor structures');
+INSERT INTO Categories (CategoryID, CatName, CatDesc) VALUES ('BLDNG', 'Building Care', 'For issues with broken glass, broken or stuck doors, damaged walls or roofing, and graffiti');
+INSERT INTO Categories (CategoryID, CatName, CatDesc) VALUES ('OTHER', 'Other', 'If you are not sure what your issue falls under');
+
+// Buildings
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('51StAn', '51st St. Annex');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('AdmCnt', 'Administrative Center');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('AAHaCH', 'African-American History and Culture House');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('AttSSC', 'Atterbury Student Success Center');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('BCaFDC', 'Berkley (Edgar L. and Rheta A.) Child and Family Development Center');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('BioSci', 'Biological Sciences Building');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('BlchMB', 'Bloch (Henry W. ) Management Building');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('BlchEH','Bloch (Henry W.) Executive Hall for Entrepreneurship and Innovation');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('ChrryH','Cherry Hall');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('ChryPG','Cherry Street Parking Garage');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('CkfrHl', 'Cockefair Hall');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('DbtHou', 'Debate House');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('EduBld', 'Education Building');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('FnArBd', 'Fine Arts Building');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('FlarHl', 'Flarsheim Hall');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('GenSrv', 'General Services Building');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('GrntHl', 'Grant Hall');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('HaagHl', 'Haag Hall');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('JohnRH', 'Johnson (Herman and Dorothy) Residence Hall');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('KatzHl', 'Katz Hall');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('LawBld', 'Law Building');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('ManhHl', 'Manheim Hall');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('NewcHl', 'Newcomb Hall');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('MNLaLC', 'Nichols (Miller) Library and Learning Center');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('OkPlAp', 'Oak Place Apartments');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('OkStRH', 'Oak Street Residence Hall');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('OldMnt', 'Old Maintenance Building');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('OPfArC', 'Olson (James C.) Performing Arts Center');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('RyllHl', 'Royall Hall');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('ScofHl', 'Scofield Hall');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('SpChem', 'Spencer Chemistry Building');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('StuUni', 'Student Union');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('SwinRC', 'Swinney Recreation Center');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('TaMnMu', 'Toy and Miniature Museum');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('UniHou', 'University House');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('HospHA', 'Hospital Hill Annex');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('SchDen', 'School of Dentistry');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('SchMed', 'School of Medicine');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('SchNur', 'School of Nursing');
+INSERT INTO Buildings (BuildingID, BuildingName) VALUES ('SchPhr', 'School of Pharmacy');
+
+// MySQL
+// Categories
+INSERT INTO reportResponse.Categories (CategoryID, CatName, CatDesc) VALUES ('TRSHR', 'Trash/Recycling/Cleaning', 'For issues with overflowing trashcans or recycling bins, or for issues with needing cleaning performed');
+
+INSERT INTO reportResponse.Categories (CategoryID, CatName, CatDesc) VALUES ('ELCLI', 'Electrical/Lighting', 'For issues with power outages, broken outlets, or broken lights');
+
+INSERT INTO reportResponse.Categories (CategoryID, CatName, CatDesc) VALUES ('WTRPL', 'Water/Plumbing', 'For issues with leaky or broken pipes, broken or clogged toilets or sinks, or broken water fountains');
+
+INSERT INTO reportResponse.Categories (CategoryID, CatName, CatDesc) VALUES ('HATAC', 'Heating/AC', 'For issues with broken or faulty heating or air conditioning systems');
+
+INSERT INTO reportResponse.Categories (CategoryID, CatName, CatDesc) VALUES ('PSTBG', 'Pests/Bugs', 'For issues with wild animals, rodents, or bugs');
+
+INSERT INTO reportResponse.Categories (CategoryID, CatName, CatDesc) VALUES ('SNWIC', 'Snow/Ice', 'For issues with snow, ice, or frozen objects');
+
+INSERT INTO reportResponse.Categories (CategoryID, CatName, CatDesc) VALUES ('LWNLD', 'Lawncare/Landscaping', 'For issues with fallen limbs, overgrown shrubs, long grass, or broken outdoor structures');
+
+INSERT INTO reportResponse.Categories (CategoryID, CatName, CatDesc) VALUES ('BLDNG', 'Building Care', 'For issues with broken glass, broken or stuck doors, damaged walls or roofing, and graffiti');
+
+INSERT INTO reportResponse.Categories (CategoryID, CatName, CatDesc) VALUES ('OTHER', 'Other', 'If you are not sure what your issue falls under');
+
+// Buildings
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('51StAn', '51st St. Annex');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('AdmCnt', 'Administrative Center');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('AAHaCH', 'African-American History and Culture House');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('AttSSC', 'Atterbury Student Success Center');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('BCaFDC', 'Berkley (Edgar L. and Rheta A.) Child and Family Development Center');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('BioSci', 'Biological Sciences Building');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('BlchMB', 'Bloch (Henry W. ) Management Building');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('BlchEH','Bloch (Henry W.) Executive Hall for Entrepreneurship and Innovation');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('ChrryH','Cherry Hall');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('ChryPG','Cherry Street Parking Garage');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('CkfrHl', 'Cockefair Hall');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('DbtHou', 'Debate House');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('EduBld', 'Education Building');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('FnArBd', 'Fine Arts Building');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('FlarHl', 'Flarsheim Hall');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('GenSrv', 'General Services Building');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('GrntHl', 'Grant Hall');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('HaagHl', 'Haag Hall');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('JohnRH', 'Johnson (Herman and Dorothy) Residence Hall');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('KatzHl', 'Katz Hall');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('LawBld', 'Law Building');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('ManhHl', 'Manheim Hall');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('NewcHl', 'Newcomb Hall');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('MNLaLC', 'Nichols (Miller) Library and Learning Center');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('OkPlAp', 'Oak Place Apartments');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('OkStRH', 'Oak Street Residence Hall');
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('OldMnt', 'Old Maintenance Building');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('OPfArC', 'Olson (James C.) Performing Arts Center');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('RyllHl', 'Royall Hall');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('ScofHl', 'Scofield Hall');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('SpChem', 'Spencer Chemistry Building');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('StuUni', 'Student Union');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('SwinRC', 'Swinney Recreation Center');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('TaMnMu', 'Toy and Miniature Museum');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('UniHou', 'University House');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('HospHA', 'Hospital Hill Annex');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('SchDen', 'School of Dentistry');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('SchMed', 'School of Medicine');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('SchNur', 'School of Nursing');
+
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('SchPhr', 'School of Pharmacy');
+INSERT INTO reportResponse.Buildings (BuildingID, BuildingName) VALUES ('Outsid', 'Outside of a Building');
+
+// Divisions
+INSERT INTO reportResponse.Divisions (DivisionID, DivisionName) VALUES ('BldSrv', 'Building Services');
+INSERT INTO reportResponse.Divisions (DivisionID, DivisionName) VALUES ('CarpSh', 'Carpentry Shop');
+INSERT INTO reportResponse.Divisions (DivisionID, DivisionName) VALUES ('Cntrct', 'Construction');
+INSERT INTO reportResponse.Divisions (DivisionID, DivisionName) VALUES ('HVACOp', 'HVAC Operations');
+INSERT INTO reportResponse.Divisions (DivisionID, DivisionName) VALUES ('LndSrv', 'Landscape Services');
+INSERT INTO reportResponse.Divisions (DivisionID, DivisionName) VALUES ('MantSh', 'Maintenance Shop');
+INSERT INTO reportResponse.Divisions (DivisionID, DivisionName) VALUES ('PlDeCo', 'Planning, Design, and Construction');
+INSERT INTO reportResponse.Divisions (DivisionID, DivisionName) VALUES ('SpMang', 'Space Management');
+INSERT INTO reportResponse.Divisions (DivisionID, DivisionName) VALUES ('SusRec', 'Sustainability/Recycling');
+INSERT INTO reportResponse.Divisions (DivisionID, DivisionName) VALUES ('Transp', 'Transportation');
+INSERT INTO reportResponse.Divisions (DivisionID, DivisionName) VALUES ('HsHMnt', 'Hospital Hill Maintenance');
+INSERT INTO reportResponse.Divisions (DivisionID, DivisionName) VALUES ('RsLfMn', 'Residential Life Maintenance');
+INSERT INTO reportResponse.Divisions (DivisionID, DivisionName) VALUES ('EnvHaS', 'Environmental Health and Safety');
+
+// Users
+INSERT INTO reportResponse.Users (UserEmail, UserPassword) VALUES ("admcc", "1122a");
+
+INSERT INTO reportResponse.Users (UserEmail, UserPassword) VALUES ("usera", "4455c");
