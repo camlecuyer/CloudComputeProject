@@ -19,79 +19,57 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
-    @BindView(R.id.input_email) EditText _emailText;
-    @BindView(R.id.input_password) EditText _passwordText;
-    @BindView(R.id.btn_login) Button _loginButton;
-    @BindView(R.id.link_signup) TextView _signupLink;
+    @BindView(R.id.input_name) EditText nameInput;
+    @BindView(R.id.input_email) EditText emailInput;
+    @BindView(R.id.input_mobile) EditText mobileInput;
+    @BindView(R.id.btn_toreport) Button reportButton;
+    @BindView(R.id.link_login) TextView loginLink;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        
-        _loginButton.setOnClickListener(new View.OnClickListener() {
 
+        reportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login();
+                signIn();
             }
         });
 
-        _signupLink.setOnClickListener(new View.OnClickListener() {
-
+        loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Start the Signup activity
+                // Start the Login activity
                 Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
-                startActivityForResult(intent, REQUEST_SIGNUP);
+                startActivity(intent);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
     }
 
-    public void login() {
-        Log.d(TAG, "Login");
+    public void signIn() {
+        Log.d(TAG, "SignIn");
 
         if (!validate()) {
-            onLoginFailed();
+            Toast.makeText(getBaseContext(), "Sign in failed, please fill out all fields", Toast.LENGTH_LONG);
             return;
         }
 
-        _loginButton.setEnabled(false);
+        String email = emailInput.getText().toString();
+        String mobile = mobileInput.getText().toString();
+        String name = nameInput.getText().toString();
 
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
-        progressDialog.show();
+        Intent intent = new Intent(getApplicationContext(), ReportActivity.class);
+        intent.putExtra("EXTRA_EMAIL", email);
+        intent.putExtra("EXTRA_MOBILE", mobile);
+        intent.putExtra("EXTRA_NAME", name);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
-
-
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_SIGNUP) {
-            if (resultCode == RESULT_OK) {
-
-                // By default we just finish the Activity and log them in automatically
-                this.finish();
-            }
-        }
     }
 
     @Override
@@ -100,35 +78,35 @@ public class LoginActivity extends AppCompatActivity {
         moveTaskToBack(true);
     }
 
-    public void onLoginSuccess() {
-        _loginButton.setEnabled(true);
-        finish();
-    }
-
-    public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
-        _loginButton.setEnabled(true);
-    }
-
     public boolean validate() {
         boolean valid = true;
 
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
+        String email = emailInput.getText().toString();
+        String mobile = mobileInput.getText().toString();
+        String name = nameInput.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
+            emailInput.setError("Enter a valid email address");
             valid = false;
-        } else {
-            _emailText.setError(null);
+        }
+        else {
+            emailInput.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+        if (mobile.isEmpty()){
+            mobileInput.setError("Please enter a phone number");
             valid = false;
-        } else {
-            _passwordText.setError(null);
+        }
+        else {
+            mobileInput.setError(null);
+        }
+
+        if (name.isEmpty()){
+            nameInput.setError("Please enter a name");
+            valid = false;
+        }
+        else {
+            nameInput.setError(null);
         }
 
         return valid;
