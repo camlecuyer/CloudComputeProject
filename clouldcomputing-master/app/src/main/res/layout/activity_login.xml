@@ -92,6 +92,7 @@
             android:layout_marginBottom="24dp"
             android:text="@string/employee_login"
             android:gravity="center"
+            android:textColor="@color/black"
             android:textSize="16sp"/>
 
     </LinearLayout>

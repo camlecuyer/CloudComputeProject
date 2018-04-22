@@ -16,6 +16,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +28,7 @@ import butterknife.ButterKnife;
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
     private ProgressDialog pDialog;
-    static final String URL =  "http://18.188.150.86/";
+    static final String URL =  "http://18.219.51.47/";
 
     @BindView(R.id.email) EditText emailInput;
     @BindView(R.id.password) EditText passwordInput;
@@ -49,7 +52,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Finish the registration screen and return to the Login activity
-                Intent intent = new Intent(getApplicationContext(),TaskActivity.class);
+                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                 startActivity(intent);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -65,9 +68,6 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
-        String email = emailInput.getText().toString();
-        String password = passwordInput.getText().toString();
-
         loginButton.setEnabled(false);
 
         pDialog = new ProgressDialog(SignupActivity.this, R.style.AppTheme_Dark_Dialog);
@@ -75,21 +75,33 @@ public class SignupActivity extends AppCompatActivity {
         pDialog.setMessage("Authenticating...");
         pDialog.show();
 
-        String url = URL + "";//"post_issue.php";
+        String url = URL + "get_user.php";
 
-        StringRequest strRequest = new StringRequest(Request.Method.GET, url,
+        StringRequest strRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>()
                 {
                     @Override
                     public void onResponse(String response)
                     {
                         pDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-                        loginButton.setEnabled(true);
-                        finish();
-                        //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        //finish();
-                        //overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                        JSONObject temp = null;
+                        try
+                        {
+                            temp = new JSONObject(response);
+
+                            Toast.makeText(getApplicationContext(), temp.getString("message"), Toast.LENGTH_SHORT).show();
+                            loginButton.setEnabled(true);
+
+                            if(temp.getString("success").equals("1"))
+                            {
+                                Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
+                                startActivity(intent);
+                                finish();
+                                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener()
@@ -104,9 +116,12 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams()
             {
+                String email = emailInput.getText().toString();
+                String password = passwordInput.getText().toString();
+
                 Map<String, String> params = new HashMap<>();
-                //params.put("catid", "BLDNG");
-                //params.put("buildid", "AdmCnt");
+                params.put("email", email);
+                params.put("pass", password);
 
                 return params;
             }
@@ -127,8 +142,8 @@ public class SignupActivity extends AppCompatActivity {
         String email = emailInput.getText().toString();
         String password = passwordInput.getText().toString();
 
-        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailInput.setError("Enter a valid email address");
+        if (email.isEmpty()) {
+            emailInput.setError("Enter a username");
             valid = false;
         }
         else {

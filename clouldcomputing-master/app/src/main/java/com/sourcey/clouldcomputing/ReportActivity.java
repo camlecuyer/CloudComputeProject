@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -15,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,34 +34,35 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class ReportActivity extends AppCompatActivity {
     // Progress Dialog
     private ProgressDialog pDialog;
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    static final String URL =  "http://18.188.150.86/";
+    static final String URL =  "http://18.219.51.47/";
 
     private Context appContext;
-    private Bitmap bitmap;
     private ImageView imageView;
     private String encodedImage;
-    private String [] floors = {"0", "1", "2", "3", "4", "5"};
-    private crrDataHolder categories;
-    private crrDataHolder buildings;
+    private String [] floors = {"Select a floor", "0", "1", "2", "3", "4", "5"};
+    private ArrayList<crrDataHolder> categories = new ArrayList<>();
+    private ArrayList<crrDataHolder> buildings = new ArrayList<>();
+    private String name;
+    private String email;
+    private String phone;
+    private boolean running = false;
 
     @BindView(R.id.cat_spn) Spinner catSpin;
     @BindView(R.id.build_spn) Spinner buildSpin;
     @BindView(R.id.floor_spn) Spinner floorSpin;
     @BindView(R.id.cat_txt) TextView catText;
-    @BindView(R.id.desc_txt) TextView descText;
+    @BindView(R.id.desc_txt) EditText descText;
     @BindView(R.id.image_btn) Button imageButton;
     @BindView(R.id.submit_btn) Button submitButton;
 
@@ -69,11 +70,9 @@ public class ReportActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
+        ButterKnife.bind(this);
 
         imageView = findViewById(R.id.imageHolder);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, floors);
-        floorSpin.setAdapter(adapter);
 
         appContext = this;
 
@@ -84,7 +83,8 @@ public class ReportActivity extends AppCompatActivity {
                 {
                     ActivityCompat.requestPermissions((Activity)appContext, new String[] {Manifest.permission.CAMERA}, REQUEST_IMAGE_CAPTURE);
                 }
-                else {
+                else
+                {
                     takePic();
                 }
             }
@@ -92,15 +92,26 @@ public class ReportActivity extends AppCompatActivity {
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
-
+            public void onClick(View v)
+            {
+                submitReport();
             }
         });
+
+        getCategories();
+
+        name = getIntent().getStringExtra("EXTRA_NAME");
+        phone = getIntent().getStringExtra("EXTRA_MOBILE");
+        email = getIntent().getStringExtra("EXTRA_EMAIL");
+
+        running = true;
     }
 
     void getCategories()
     {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, floors);
+        floorSpin.setAdapter(adapter);
+
         String url = URL + "get_items.php";
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
@@ -110,19 +121,74 @@ public class ReportActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response)
                     {
                         try {
-                            //JSONObject res = response.getJSONObject("results");
-                            JSONArray jarray = response.getJSONArray("results");
+                            JSONArray res = response.getJSONArray("results");
+                            JSONArray cat = res.getJSONObject(0).getJSONArray("categories");
+                            JSONArray build = res.getJSONObject(0).getJSONArray("buildings");
 
-                                /*for(int i = 0; i < jarray.length(); i++)
-                                {
-                                    JSONObject item = jarray.getJSONObject(i);
-                                    String ID = item.getString("CategoryID");
-                                    String brand = item.getString("CatName");
+                            crrDataHolder temp = new crrDataHolder("Please select a category", "NULL", "");
+                            categories.add(temp);
 
-                                    System.out.println(ID + "," + brand);
+                            for (int i = 0; i < cat.length(); i++) {
+                                JSONObject item = cat.getJSONObject(i);
+                                String id = item.getString("CategoryID");
+                                String name = item.getString("CatName");
+                                String desc = item.getString("CatDesc");
 
-                                } // end loop*/
+                                temp = new crrDataHolder(name, id, desc);
 
+                                categories.add(temp);
+                            } // end loop
+
+                            temp = new crrDataHolder("Please select a Building", "NULL", "");
+                            buildings.add(temp);
+
+                            for(int i = 0; i < build.length(); i++)
+                            {
+                                JSONObject item = build.getJSONObject(i);
+                                String id = item.getString("BuildingID");
+                                String name = item.getString("BuildingName");
+
+                                temp = new crrDataHolder(name, id, "");
+
+                                buildings.add(temp);
+                            } // end loop
+
+                            ArrayAdapter<crrDataHolder> catAdapter = new ArrayAdapter<>(appContext, android.R.layout.simple_spinner_item, categories);
+                            catSpin.setAdapter(catAdapter);
+
+                            ArrayAdapter<crrDataHolder> buildAdapter = new ArrayAdapter<>(appContext, android.R.layout.simple_spinner_item, buildings);
+                            buildSpin.setAdapter(buildAdapter);
+
+                            catSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                    if(running)
+                                    {
+                                        catText.setText(categories.get(catSpin.getSelectedItemPosition()).getDescription());
+                                    }
+                                }
+
+                                public void onNothingSelected(AdapterView<?> adapterView) {
+                                }
+                            });
+
+                            buildSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                    if(running)
+                                    {
+                                        if(buildings.get(buildSpin.getSelectedItemPosition()).getId().equals("Outsid"))
+                                        {
+                                            floorSpin.setEnabled(false);
+                                        }
+                                        else
+                                        {
+                                            floorSpin.setEnabled(true);
+                                        }
+                                    }
+                                }
+
+                                public void onNothingSelected(AdapterView<?> adapterView) {
+                                }
+                            });
                         }
                         catch (JSONException e)
                         {
@@ -137,7 +203,6 @@ public class ReportActivity extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // TODO Auto-generated method stub
                         System.out.println("Error");
                     }
                 });
@@ -147,17 +212,69 @@ public class ReportActivity extends AppCompatActivity {
 
     void takePic() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null)
+        {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
 
-    void submitReport(View v)
+    private boolean validate()
     {
-        ProgressDialog progressDialog = new ProgressDialog(ReportActivity.this, R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Submitting...");
-        progressDialog.show();
+        boolean valid = true;
+
+        String desc = descText.getText().toString().trim();
+
+        if (desc.isEmpty())
+        {
+            descText.setError("Enter a description");
+            valid = false;
+        }
+        else
+        {
+            descText.setError(null);
+        }
+
+        if (encodedImage == null)
+        {
+            valid = false;
+        }
+
+        if (catSpin.getSelectedItemId() == 0)
+        {
+            valid = false;
+        }
+
+        if (buildSpin.getSelectedItemId() == 0)
+        {
+            valid = false;
+        }
+        else
+        {
+            if(!buildSpin.getSelectedItem().equals("Outside"))
+            {
+                if(floorSpin.getSelectedItemId() == 0)
+                {
+                    valid = false;
+                }
+            }
+        }
+
+        return valid;
+    }
+
+    void submitReport()
+    {
+        if(!validate())
+        {
+            Toast.makeText(getApplicationContext(), "Please select a category, building, (and floor if necessary), fill out the description, and take a picture", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        pDialog = new ProgressDialog(ReportActivity.this, R.style.AppTheme_Dark_Dialog);
+        pDialog.setIndeterminate(true);
+        pDialog.setMessage("Submitting...");
+        pDialog.show();
 
         String url = URL + "post_issue.php";
 
@@ -168,7 +285,17 @@ public class ReportActivity extends AppCompatActivity {
                     public void onResponse(String response)
                     {
                         pDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+                        try
+                        {
+                            JSONObject temp = new JSONObject(response);
+                            Toast.makeText(getApplicationContext(), temp.getString("message"), Toast.LENGTH_SHORT).show();
+
+                            reset();
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener()
@@ -183,16 +310,31 @@ public class ReportActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams()
             {
+                String desc = descText.getText().toString().trim();
+
+                String catID = categories.get(catSpin.getSelectedItemPosition()).getId();
+                String buildID = buildings.get(buildSpin.getSelectedItemPosition()).getId();
+                String floor;
+
+                if(!buildID.equals("Outsid"))
+                {
+                    floor = floorSpin.getSelectedItem().toString();
+                }
+                else
+                {
+                    floor = "0";
+                }
+
                 Map<String, String> params = new HashMap<>();
-                params.put("catid", "BLDNG");
-                params.put("buildid", "AdmCnt");
+                params.put("catid", catID);
+                params.put("buildid", buildID);
                 params.put("photo", encodedImage);
-                params.put("desc", "broken tile");
-                params.put("floor", "2");
-                params.put("email", "abc@123.com");
-                params.put("name", "Bill");
-                params.put("phone", "9135555555");
-                params.put("loc", "2.58, 2.68");
+                params.put("desc", desc);
+                params.put("floor", floor);
+                params.put("email", email);
+                params.put("name", name);
+                params.put("phone", phone);
+                params.put("loc", "0,0");
 
                 return params;
             }
@@ -205,13 +347,31 @@ public class ReportActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
-            bitmap = (Bitmap) extras.get("data");
+            Bitmap bitmap = null;
+
+            if (extras != null)
+            {
+                bitmap = (Bitmap) extras.get("data");
+            }
+
             imageView.setImageBitmap(bitmap);
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+            if (bitmap != null)
+            {
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            }
+
             byte[] imageBytes = baos.toByteArray();
             encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         }
+    }
+
+    void reset()
+    {
+        encodedImage = null;
+        imageView.setImageResource(android.R.color.transparent);
+        descText.setText("");
     }
 }
