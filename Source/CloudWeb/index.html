@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="" ng-app="reportResponse">
+<html lang="en" ng-app="reportResponse">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -8,11 +8,20 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
         <link rel="stylesheet" href="css/index.css">
 
         <script src="js/main.js"></script>
     </head>
-    <body ng-controller="report-control">
+    <body ng-controller="login-control">
         <div>
             <label>Login:</label>
             <div>
@@ -24,7 +33,7 @@
                 <input type="text" ng-model="password"/>
             </div>
             <div>
-                <input type="button" value="Login"/>
+                <input type="button" value="Login" ng-click="login()"/>
             </div>
         </div>
 

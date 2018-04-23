@@ -1,10 +1,116 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="reportResponse">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <title>Report Response</title>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body ng-controller="report-control">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+        <li><a data-toggle="tab" href="#issues">New Issues</a></li>
+        <li><a data-toggle="tab" href="#charts">Charts</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <div>
+                <h3>Current Tasks:</h3>
+                <div>
+                    <!--Task list-->
+                    <ul>
+
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <h3>Recently Completed Tasks:</h3>
+                <div>
+                    <!--Completed task list-->
+                    <ul>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="issues" class="tab-pane fade">
+            <div>
+                <h3>New Issues:</h3>
+                <div>
+                    <!--New issues list-->
+                    <ul>
+
+                    </ul>
+                </div>
+                <input type="button" value="Add Task">
+                <input type="button" value="Close Selected Issue">
+            </div>
+            <div>
+                <label>Search:</label>
+                <input type="text">
+                <input type="button" value="Search">
+                <div>
+                    <!--Task list-->
+                    <ul>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="charts" class="tab-pane fade">
+            <h3>Menu 2</h3>
+            <p>Some content in menu 2.</p>
+        </div>
+    </div>
 </body>
+
+<!--<template id="comment-template">
+    <li class="comment">
+        <div>DateOpened</div>
+        <div>Description</div>
+        <div>Category</div>
+        <div>Building, and Floor</div>
+        <div>
+            <a href="#photo">Photo</a>
+        </div>
+        <div>
+            <a href="#details">Details</a>
+        </div>
+        <div>ID</div>
+        <div>Name</div>
+        <div>Phone</div>
+        <div>Email</div>
+        <div>Location</div>
+    </li>
+</template>
+
+<template id="comment-template">
+    <li class="comment">
+        <div class="comment-author"></div>
+        <div class="comment-body"></div>
+        <div class="comment-actions">
+            <a href="#reply" class="reply">Reply</a>
+        </div>
+    </li>
+</template>
+
+<template id="comment-template">
+    <li class="comment">
+        <div class="comment-author"></div>
+        <div class="comment-body"></div>
+        <div class="comment-actions">
+            <a href="#reply" class="reply">Reply</a>
+        </div>
+    </li>
+</template>-->
 </html>
