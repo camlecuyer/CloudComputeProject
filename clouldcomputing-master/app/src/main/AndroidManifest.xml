@@ -29,8 +29,12 @@
         <activity
             android:name=".SignupActivity"
             android:theme="@style/AppTheme.Dark" />
-        <activity android:name=".TaskActivity" />
-        <activity android:name=".ReportActivity"></activity>
+        <activity
+            android:name=".TaskActivity"
+            android:theme="@style/AppTheme.Dark" />
+        <activity
+            android:name=".ReportActivity"
+            android:theme="@style/AppTheme.Dark" />
     </application>
 
 </manifest>
