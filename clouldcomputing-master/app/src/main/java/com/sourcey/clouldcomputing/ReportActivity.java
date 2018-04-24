@@ -7,6 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -41,7 +44,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ReportActivity extends AppCompatActivity {
+public class ReportActivity extends AppCompatActivity implements LocationListener{
     // Progress Dialog
     private ProgressDialog pDialog;
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -57,6 +60,8 @@ public class ReportActivity extends AppCompatActivity {
     private String email;
     private String phone;
     private boolean running = false;
+    private String lat = "";
+    private String lng = "";
 
     @BindView(R.id.cat_spn) Spinner catSpin;
     @BindView(R.id.build_spn) Spinner buildSpin;
@@ -75,6 +80,12 @@ public class ReportActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageHolder);
 
         appContext = this;
+
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
+
+        }
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,6 +222,7 @@ public class ReportActivity extends AppCompatActivity {
     }
 
     void takePic() {
+        getLocation();
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         if (takePictureIntent.resolveActivity(getPackageManager()) != null)
@@ -334,7 +346,7 @@ public class ReportActivity extends AppCompatActivity {
                 params.put("email", email);
                 params.put("name", name);
                 params.put("phone", phone);
-                params.put("loc", "0,0");
+                params.put("loc", lat + "," + lng);
 
                 return params;
             }
@@ -373,5 +385,41 @@ public class ReportActivity extends AppCompatActivity {
         encodedImage = null;
         imageView.setImageResource(android.R.color.transparent);
         descText.setText("");
+    }
+
+    // Location code found on https://www.androstock.com/tutorials/getting-current-location-latitude-longitude-country-android-android-studio.html
+    void getLocation() {
+        LocationManager locationManager;
+        try {
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            if (locationManager != null)
+            {
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 5, this);
+            }
+        }
+        catch(SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        lat = location.getLatitude() + "";
+        lng = location.getLongitude() + "";
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Toast.makeText(ReportActivity.this, "Please Enable GPS and Internet", Toast.LENGTH_SHORT).show();
     }
 }

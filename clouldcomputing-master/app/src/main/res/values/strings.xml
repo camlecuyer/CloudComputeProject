@@ -21,4 +21,8 @@
     <string name="building">Building:</string>
     <string name="floor_number">Floor Number:</string>
     <string name="description">Description:</string>
+    <string name="search">Search:</string>
+    <string name="close_selected_task">Close Selected Task</string>
+    <string name="floor">Floor:</string>
+    <string name="date_opened">Date Opened:</string>
 </resources>
