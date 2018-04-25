@@ -51,6 +51,7 @@
                     android:id="@+id/cat_spn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:popupBackground="@color/iron"
                     android:layout_marginLeft="5sp"
                     android:layout_marginRight="5sp"/>
             </LinearLayout>
@@ -73,6 +74,7 @@
                     android:id="@+id/cat_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:layout_marginLeft="5sp"
                     android:layout_marginRight="5sp"/>
             </LinearLayout>
@@ -104,7 +106,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5sp"
-                    android:layout_marginRight="5sp" />
+                    android:layout_marginRight="5sp"
+                    android:popupBackground="@color/iron"
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -126,6 +130,7 @@
                     android:id="@+id/floor_spn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:popupBackground="@color/iron"
                     android:layout_marginLeft="5sp"
                     android:layout_marginRight="5sp" />
             </LinearLayout>

@@ -42,9 +42,9 @@ public class TaskActivity extends AppCompatActivity {
 
     void populateTasks()
     {
-        //String url = URL + "get_tasks.php";
+        String url = URL + "get_tasks.php";
         //String url = URL + "get_closedtasks.php";
-        String url = URL + "get_issues.php";
+        //String url = URL + "get_issues.php";
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>()

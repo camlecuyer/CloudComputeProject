@@ -38,6 +38,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -189,10 +190,12 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
                                         if(buildings.get(buildSpin.getSelectedItemPosition()).getId().equals("Outsid"))
                                         {
                                             floorSpin.setEnabled(false);
+                                            floorSpin.setBackgroundColor(getResources().getColor(R.color.iron));
                                         }
                                         else
                                         {
                                             floorSpin.setEnabled(true);
+                                            floorSpin.setBackgroundColor(getResources().getColor(R.color.primary));
                                         }
                                     }
                                 }
@@ -388,6 +391,7 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
     }
 
     // Location code found on https://www.androstock.com/tutorials/getting-current-location-latitude-longitude-country-android-android-studio.html
+    // and https://stackoverflow.com/questions/2227292/how-to-get-latitude-and-longitude-of-the-mobile-device-in-android
     void getLocation() {
         LocationManager locationManager;
         try {
@@ -395,6 +399,17 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
             if (locationManager != null)
             {
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 5, this);
+
+                Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                Formatter fmt = new Formatter();
+
+                lng =  fmt.format("%.4f", location.getLongitude()).toString();
+                lat = fmt.format("%.4f", location.getLatitude()).toString();
+            }
+            else
+            {
+                lng = "0";
+                lat = "0";
             }
         }
         catch(SecurityException e) {
@@ -420,6 +435,6 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
 
     @Override
     public void onProviderDisabled(String provider) {
-        Toast.makeText(ReportActivity.this, "Please Enable GPS and Internet", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(ReportActivity.this, "Please Enable GPS and Internet", Toast.LENGTH_SHORT).show();
     }
 }
