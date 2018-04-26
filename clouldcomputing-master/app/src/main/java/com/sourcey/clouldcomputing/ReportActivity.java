@@ -38,7 +38,6 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -339,7 +338,6 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
                 {
                     floor = "0";
                 }
-                Formatter fmt = new Formatter();
 
                 Map<String, String> params = new HashMap<>();
                 params.put("catid", catID);
@@ -350,7 +348,7 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
                 params.put("email", email);
                 params.put("name", name);
                 params.put("phone", phone);
-                params.put("loc", fmt.format("%.4f", lat).toString() + "," + fmt.format("%.4f", lng).toString());
+                params.put("loc", lat + "," + lng);
 
                 return params;
             }
