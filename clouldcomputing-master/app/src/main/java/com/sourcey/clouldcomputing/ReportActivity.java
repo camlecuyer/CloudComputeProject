@@ -286,7 +286,7 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
             return;
         }
 
-        pDialog = new ProgressDialog(ReportActivity.this, R.style.AppTheme_Dark_Dialog);
+        pDialog = new ProgressDialog(ReportActivity.this, R.style.AppTheme);
         pDialog.setIndeterminate(true);
         pDialog.setMessage("Submitting...");
         pDialog.show();

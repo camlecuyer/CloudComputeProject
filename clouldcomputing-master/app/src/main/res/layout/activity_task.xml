@@ -45,12 +45,16 @@
             android:id="@+id/close_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/close_selected_task" />
+            android:text="@string/close_selected_task"
+            android:onClick="closeTask"/>
 
         <ListView
             android:id="@+id/task_lst"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:choiceMode="singleChoice"
+            android:listSelector="@color/primary_darkest"
+            android:background="@color/jet"/>
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

@@ -70,7 +70,7 @@ public class SignupActivity extends AppCompatActivity {
 
         loginButton.setEnabled(false);
 
-        pDialog = new ProgressDialog(SignupActivity.this, R.style.AppTheme_Dark_Dialog);
+        pDialog = new ProgressDialog(SignupActivity.this, R.style.AppTheme);
         pDialog.setIndeterminate(true);
         pDialog.setMessage("Authenticating...");
         pDialog.show();

@@ -1,12 +1,15 @@
 package com.sourcey.clouldcomputing;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -19,6 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +32,10 @@ public class TaskActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     static final String URL =  "http://18.219.51.47/";
     private Context appContext;
+    private ArrayList<TaskData> tasks;
+    private TaskData selectedTask;
+    //holds the position of selected item
+    private int curPosition = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +43,30 @@ public class TaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_task);
         ButterKnife.bind(this);
 
+        ListView lv = findViewById(R.id.task_lst);
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // sets the curPosition of selectedItem
+                curPosition = position;
+
+                // saves the selectedItem info
+                selectedTask = (TaskData) parent.getItemAtPosition(position);
+            }
+        });
+
         appContext = this;
 
         populateTasks();
-    }
+    } // end onCreate
 
     void populateTasks()
     {
         String url = URL + "get_tasks.php";
-        //String url = URL + "get_closedtasks.php";
-        //String url = URL + "get_issues.php";
+        tasks = new ArrayList<>();
+        curPosition = -1;
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>()
@@ -55,23 +77,19 @@ public class TaskActivity extends AppCompatActivity {
                         try {
                             if(response.getString("success").equals("1"))
                             {
+                                ListView lv = findViewById(R.id.task_lst);
                                 JSONArray res = response.getJSONArray("results");
-                                //JSONArray cat = res.getJSONObject(0).getJSONArray("categories");
-                                //JSONArray build = res.getJSONObject(0).getJSONArray("buildings");
+                                JSONArray task = res.getJSONObject(0).getJSONArray("tasks");
 
-                                //crrDataHolder temp = new crrDataHolder("Please select a category", "NULL", "");
-                                //categories.add(temp);
+                                for (int i = 0; i < task.length(); i++) {
+                                    JSONObject item = task.getJSONObject(i);
+                                    TaskData temp = new TaskData(item.getString("TaskID"), item.getString("DivisionID"), item.getString("BuildingID"), item.getString("IssueID"),
+                                            item.getString("TaskDesc"), item.getString("TaskDateOpened"), item.getString("TaskFloorNumber"), item.getString("TaskLocation"));
 
-                                /*for (int i = 0; i < cat.length(); i++) {
-                                    JSONObject item = cat.getJSONObject(i);
-                                    String id = item.getString("CategoryID");
-                                    String name = item.getString("CatName");
-                                    String desc = item.getString("CatDesc");
+                                    tasks.add(temp);
 
-                                    //temp = new crrDataHolder(name, id, desc);
-
-                                    //categories.add(temp);
-                                } // end loop*/
+                                    lv.setAdapter(new TaskAdapter(appContext, tasks));
+                                } // end loop
                             }
                             else
                             {
@@ -97,20 +115,62 @@ public class TaskActivity extends AppCompatActivity {
                 });
 
         MySingleton.getInstance(appContext).addToRequestQueue(jsObjRequest);
+    } // end populate tasks
 
-        /*StringRequest strRequest = new StringRequest(Request.Method.GET, url,
+    void closeTask(View v) {
+
+        ListView lv = findViewById(R.id.task_lst);
+
+        if(curPosition == -1) {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setMessage("Please select a task to close");
+            alertDialogBuilder.setPositiveButton("Ok",
+                    new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface arg0, int arg1) {
+                        }
+                    });
+
+            alertDialogBuilder.setNegativeButton("Cancel",
+                    new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface arg0, int arg1) {
+
+                        }
+                    });
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+            return;
+        }
+
+        pDialog = new ProgressDialog(TaskActivity.this, R.style.AppTheme);
+        pDialog.setIndeterminate(true);
+        pDialog.setMessage("Closing Task...");
+        pDialog.show();
+
+        String url = URL + "put_task.php";
+
+        StringRequest strRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>()
                 {
                     @Override
                     public void onResponse(String response)
                     {
                         pDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-                        //loginButton.setEnabled(true);
-                        //finish();
-                        //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        //finish();
-                        //overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                        try
+                        {
+                            JSONObject temp = new JSONObject(response);
+                            Toast.makeText(getApplicationContext(), temp.getString("message"), Toast.LENGTH_SHORT).show();
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                        populateTasks();
                     }
                 },
                 new Response.ErrorListener()
@@ -125,14 +185,14 @@ public class TaskActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams()
             {
+
                 Map<String, String> params = new HashMap<>();
-                //params.put("catid", "BLDNG");
-                //params.put("buildid", "AdmCnt");
+                params.put("taskid", selectedTask.getTaskID());
 
                 return params;
             }
         };
 
-        MySingleton.getInstance(this).addToRequestQueue(strRequest);*/
+        MySingleton.getInstance(this).addToRequestQueue(strRequest);
     }
 }
