@@ -1,0 +1,16 @@
+.control {
+    margin: 10px auto;
+    width: fit-content;
+    width: -moz-fit-content;
+}
+
+.center {
+    background: #00cccc;
+    border-radius: 20px;
+    margin-top: 20px;
+    padding-bottom: 15px;
+}
+
+h3 {
+    font-weight: bold;
+}

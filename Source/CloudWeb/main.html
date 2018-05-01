@@ -21,6 +21,7 @@
         <script src="js/main.js"></script>
     </head>
     <body ng-controller="report-control" ng-init="init()">
+        <!-- Start Template -->
         <script type="text/ng-template" id="addTask.html">
             <div class="modal-dialog model-md" style="display: block">
                 <div class="modal-header">
@@ -28,19 +29,27 @@
                 </div>
                 <div class="modal-body" ng-init="init()">
                     <div>
-                        Task Description: <input ng-model="taskDesc"/>
+                        <label>Task Description:</label><input ng-model="taskDesc"/>
                     </div>
                     <div>
-                        <select ng-model="selectedBuild">
-                            <option ng-repeat="building in buildings">{{building.BuildingName}}</option>
-                        </select>
-                        Floor Number:
-                        <select ng-model="selectedFloor">
-                            <option ng-repeat="floor in floors">{{floor}}</option>
-                        </select>
-                        <select ng-model="selectedDiv">
-                            <option ng-repeat="division in divisions">{{division.DivisionName}}</option>
-                        </select>
+                        <div>
+                            <label>Building:</label>
+                            <select ng-model="selectedBuild">
+                                <option ng-repeat="building in buildings">{{building.BuildingName}}</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Floor Number:</label>
+                            <select ng-model="selectedFloor">
+                                <option ng-repeat="floor in floors">{{floor}}</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Division:</label>
+                            <select ng-model="selectedDiv">
+                                <option ng-repeat="division in divisions">{{division.DivisionName}}</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -51,6 +60,7 @@
                 </div>
             </div>
         </script>
+        <!-- End Template -->
         <div class="navbar">
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
@@ -66,7 +76,7 @@
                         <h3>Current Tasks:</h3>
                         <div>
                             <!--Task list-->
-                            <ul>
+                            <ul class="listItem">
                                 <li data-ng-repeat="task in tasks" ng-init="homeCol = {}">
                                     <div>
                                         <div>Date Opened: {{task.TaskDateOpened}}</div>
@@ -91,7 +101,7 @@
                         <h3>Recently Completed Tasks:</h3>
                         <div>
                             <!--Completed task list-->
-                            <ul>
+                            <ul class="listItem">
                                 <li data-ng-repeat="closedtask in closedtasks" ng-init="homeClosed = {}">
                                     <div>
                                         <div>Date Closed: {{closedtask.TaskDateClosed}}</div>
@@ -123,7 +133,7 @@
                         <h3>New Issues:</h3>
                         <div>
                             <!--New issues list-->
-                            <ul>
+                            <ul class="listItem">
                                 <li data-ng-repeat="issue in issues" ng-init="cols = {}">
                                     <div>
                                         <div>Date Opened: {{issue.IssueDateOpened}}</div>
@@ -158,7 +168,7 @@
                         <input type="button" value="Search">
                         <div>
                             <!--Task list-->
-                            <ul>
+                            <ul class="listItem">
                                 <li data-ng-repeat="task in tasks" ng-init="taskCol = {}">
                                         <div>
                                             <div>Date Opened: {{task.TaskDateOpened}}</div>
