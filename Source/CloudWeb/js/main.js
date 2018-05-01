@@ -31,12 +31,12 @@ app.controller('report-control', function($scope, $http, $modal, $window) {
     };
 
     $scope.getIssues = function() {
-	$http.get("http://18.219.51.47/get_issues.php").then(function (result) {
+	    $http.get("http://18.219.51.47/get_issues.php").then(function (result) {
         	if(result.data.success == "1")
         	{
-            		$scope.issues = result.data.results[0].issues;
+        	    $scope.issues = result.data.results[0].issues;
         	}
-	});
+	    });
     };
 
     $scope.collapseIssue = function() {
