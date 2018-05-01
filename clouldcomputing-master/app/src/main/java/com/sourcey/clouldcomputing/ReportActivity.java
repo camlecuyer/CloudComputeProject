@@ -38,7 +38,6 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,8 +60,8 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
     private String email;
     private String phone;
     private boolean running = false;
-    private String lat = "";
-    private String lng = "";
+    private double lat = 0;
+    private double lng = 0;
 
     @BindView(R.id.cat_spn) Spinner catSpin;
     @BindView(R.id.build_spn) Spinner buildSpin;
@@ -401,15 +400,14 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 5, this);
 
                 Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                Formatter fmt = new Formatter();
 
-                lng =  fmt.format("%.4f", location.getLongitude()).toString();
-                lat = fmt.format("%.4f", location.getLatitude()).toString();
+                lng =  location.getLongitude();
+                lat = location.getLatitude();
             }
             else
             {
-                lng = "0";
-                lat = "0";
+                lng = 0;
+                lat = 0;
             }
         }
         catch(SecurityException e) {
@@ -419,8 +417,8 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
 
     @Override
     public void onLocationChanged(Location location) {
-        lat = location.getLatitude() + "";
-        lng = location.getLongitude() + "";
+        lat = location.getLatitude();
+        lng = location.getLongitude();
     }
 
     @Override
