@@ -14,12 +14,43 @@
 
         <!-- Latest compiled JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="http://angular-ui.github.com/bootstrap/ui-bootstrap-tpls-0.12.0.js"></script>
 
         <link rel="stylesheet" href="css/main.css">
 
         <script src="js/main.js"></script>
     </head>
     <body ng-controller="report-control" ng-init="init()">
+        <script type="text/ng-template" id="addTask.html">
+            <div class="modal-dialog model-md" style="display: block">
+                <div class="modal-header">
+                    <h2>Add Task:</h2>
+                </div>
+                <div class="modal-body" ng-init="init()">
+                    <div>
+                        Task Description: <input ng-model="taskDesc"/>
+                    </div>
+                    <div>
+                        <select ng-model="selectedBuild">
+                            <option ng-repeat="building in buildings">{{building.BuildingName}}</option>
+                        </select>
+                        Floor Number:
+                        <select ng-model="selectedFloor">
+                            <option ng-repeat="floor in floors">{{floor}}</option>
+                        </select>
+                        <select ng-model="selectedDiv">
+                            <option ng-repeat="division in divisions">{{division.DivisionName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div>
+                        <button ng-click="close()">Close</button>
+                        <button ng-click="add()">Add Task</button>
+                    </div>
+                </div>
+            </div>
+        </script>
         <div class="navbar">
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
@@ -36,7 +67,22 @@
                         <div>
                             <!--Task list-->
                             <ul>
-
+                                <li data-ng-repeat="task in tasks" ng-init="homeCol = {}">
+                                    <div>
+                                        <div>Date Opened: {{task.TaskDateOpened}}</div>
+                                        <div>Description: {{task.TaskDesc}}</div>
+                                        <div>Division: {{task.DivisionID}}</div>
+                                        <div>Building: {{task.BuildingID}}, Floor: {{task.TaskFloorNumber}}</div>
+                                        <div>
+                                            <a href="#" ng-click="collapseTaskHome()">Details</a>
+                                        </div>
+                                        <div ng-show="homeCol.expanded">
+                                            <div>Task ID: {{task.TaskID}}</div>
+                                            <div>Issue ID: {{task.IssueID}}</div>
+                                            <div>Task Location:{{task.TaskLocation}}</div>
+                                        </div>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -46,7 +92,24 @@
                         <div>
                             <!--Completed task list-->
                             <ul>
-
+                                <li data-ng-repeat="closedtask in closedtasks" ng-init="homeClosed = {}">
+                                    <div>
+                                        <div>Date Closed: {{closedtask.TaskDateClosed}}</div>
+                                        <div>Description: {{closedtask.TaskDesc}}</div>
+                                        <div>Division: {{closedtask.DivisionID}}</div>
+                                        <div>Building: {{closedtask.BuildingID}}, Floor:
+                                            {{closedtask.TaskFloorNumber}}
+                                        </div>
+                                        <div>
+                                            <a href="#" ng-click="collapseTaskClosed()">Details</a>
+                                        </div>
+                                        <div ng-show="homeClosed.expanded">
+                                            <div>Task ID: {{closedtask.TaskID}}</div>
+                                            <div>Issue ID: {{closedtask.IssueID}}</div>
+                                            <div>Task Location:{{closedtask.TaskLocation}}</div>
+                                        </div>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -61,32 +124,31 @@
                         <div>
                             <!--New issues list-->
                             <ul>
-                                <li data-ng-repeat="issue in issues">
+                                <li data-ng-repeat="issue in issues" ng-init="cols = {}">
                                     <div>
-                                        <div>{{issue.IssueDateOpened}}</div>
-                                        <div>{{issue.IssueDesc}}</div>
-                                        <div>{{issue.CategoryID}}</div>
-                                        <div>{{issue.BuildingID}}, Floor: {{issue.IssueFloorNumber}}</div>
+                                        <div>Date Opened: {{issue.IssueDateOpened}}</div>
+                                        <div>Issue Description: {{issue.IssueDesc}}</div>
+                                        <div>Category ID: {{issue.CategoryID}}</div>
+                                        <div>Building ID: {{issue.BuildingID}}, Floor: {{issue.IssueFloorNumber}}</div>
                                         <!--<div>
                                             <a href="#photo">Photo</a>
                                         </div>-->
                                         <div>
-                                            <a href="#details">Details</a>
+                                            <a href="#" ng-click="collapseIssue()">Details</a>
                                         </div>
-                                        <div>
-                                            <div>{{issue.IssueID}}</div>
-                                            <div>{{issue.IssueFirstName}}</div>
-                                            <div>{{issue.IssuePhone}}</div>
-                                            <div>{{issue.IssueEmail}}</div>
-                                            <div>{{issue.IssueLocation}}</div>
+                                        <div ng-show="cols.expanded">
+                                            <div>Issue ID: {{issue.IssueID}}</div>
+                                            <div>Issue First Name: {{issue.IssueFirstName}}</div>
+                                            <div>Issue Phone: {{issue.IssuePhone}}</div>
+                                            <div>Issue Email: {{issue.IssueEmail}}</div>
+                                            <div>Issue Location: {{issue.IssueLocation}}</div>
                                         </div>
-
+                                        <input type="button" value="Add Task" ng-click="addTask(issue)">
+                                        <input type="button" value="Close Selected Issue" ng-click="closeIssue(issue)">
                                     </div>
                                 </li>
                             </ul>
                         </div>
-                        <input type="button" value="Add Task">
-                        <input type="button" value="Close Selected Issue">
                     </div>
                     <div class="col-sm-1 col-md-1 col-lg-1"></div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
@@ -97,7 +159,22 @@
                         <div>
                             <!--Task list-->
                             <ul>
-
+                                <li data-ng-repeat="task in tasks" ng-init="taskCol = {}">
+                                        <div>
+                                            <div>Date Opened: {{task.TaskDateOpened}}</div>
+                                            <div>Description: {{task.TaskDesc}}</div>
+                                            <div>Division: {{task.DivisionID}}</div>
+                                            <div>Building: {{task.BuildingID}}, Floor: {{task.TaskFloorNumber}}</div>
+                                            <div>
+                                                <a href="#" ng-click="collapseTask()">Details</a>
+                                            </div>
+                                            <div ng-show="taskCol.expanded">
+                                                <div>Task ID: {{task.TaskID}}</div>
+                                                <div>Issue ID: {{task.IssueID}}</div>
+                                                <div>Task Location:{{task.TaskLocation}}</div>
+                                            </div>
+                                        </div>
+                                    </li>
                             </ul>
                         </div>
                     </div>
@@ -115,48 +192,4 @@
             </div>
         </div>
     </body>
-
-<!--
-
-
-
-<template id="comment-template">
-    <li class="comment">
-        <div>DateOpened</div>
-        <div>Description</div>
-        <div>Category</div>
-        <div>Building, and Floor</div>
-        <div>
-            <a href="#photo">Photo</a>
-        </div>
-        <div>
-            <a href="#details">Details</a>
-        </div>
-        <div>ID</div>
-        <div>Name</div>
-        <div>Phone</div>
-        <div>Email</div>
-        <div>Location</div>
-    </li>
-</template>
-
-<template id="comment-template">
-    <li class="comment">
-        <div class="comment-author"></div>
-        <div class="comment-body"></div>
-        <div class="comment-actions">
-            <a href="#reply" class="reply">Reply</a>
-        </div>
-    </li>
-</template>
-
-<template id="comment-template">
-    <li class="comment">
-        <div class="comment-author"></div>
-        <div class="comment-body"></div>
-        <div class="comment-actions">
-            <a href="#reply" class="reply">Reply</a>
-        </div>
-    </li>
-</template>-->
 </html>
