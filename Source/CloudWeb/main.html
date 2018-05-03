@@ -12,9 +12,12 @@
         <!-- jQuery library -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-        <!-- Latest compiled JavaScript -->
+        <!-- Bootstrap library -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="http://angular-ui.github.com/bootstrap/ui-bootstrap-tpls-0.12.0.js"></script>
+
+        <!-- Google charts -->
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
         <link rel="stylesheet" href="css/main.css">
 
@@ -140,9 +143,6 @@
                                         <div>Issue Description: {{issue.IssueDesc}}</div>
                                         <div>Category ID: {{issue.CategoryID}}</div>
                                         <div>Building ID: {{issue.BuildingID}}, Floor: {{issue.IssueFloorNumber}}</div>
-                                        <!--<div>
-                                            <a href="#photo">Photo</a>
-                                        </div>-->
                                         <div>
                                             <a href="#" ng-click="collapseIssue()">Details</a>
                                         </div>
@@ -152,6 +152,9 @@
                                             <div>Issue Phone: {{issue.IssuePhone}}</div>
                                             <div>Issue Email: {{issue.IssueEmail}}</div>
                                             <div>Issue Location: {{issue.IssueLocation}}</div>
+                                            <div>
+                                                <img src="http://18.219.51.47/get_photos.php?id={{issue.PhotoID}}"/>
+                                            </div>
                                         </div>
                                         <input type="button" value="Add Task" ng-click="addTask(issue)">
                                         <input type="button" value="Close Selected Issue" ng-click="closeIssue(issue)">
@@ -196,6 +199,12 @@
                     <div class="col-sm-1 col-md-1 col-lg-1"></div>
                     <div class="col-sm-10 col-md-10 col-lg-10">
                         <h3>Charts:</h3>
+                        <div id="buildChart">
+
+                        </div>
+                        <div id="catChart">
+
+                        </div>
                     </div>
                     <div class="col-sm-1 col-md-1 col-lg-1"></div>
                 </div>

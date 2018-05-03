@@ -28,6 +28,8 @@ app.controller('report-control', function($scope, $http, $modal, $window) {
         $scope.getIssues();
 
         $scope.getTasks();
+
+        $scope.loadChart();
     };
 
     $scope.getIssues = function() {
@@ -168,6 +170,31 @@ app.controller('report-control', function($scope, $http, $modal, $window) {
                     window.alert("Issue not closed");
                     console.log(res["message"]);
                 }
+            });
+    };
+
+    $scope.loadChart = function () {
+        $http.get("http://18.219.51.47/get_chart.php").then(
+            function (result) {
+                var res = result.data.results[0];
+                var build = res.build;
+                var cat = res.cat;
+
+                var buildID = [];
+                var buildCount = [];
+
+                angular.forEach(build, function(value, key) {
+                    buildID.push(value["BuildingID"]);
+                    buildCount.push(value["Count"]);
+                });
+
+                var catID = [];
+                var catCount = [];
+
+                angular.forEach(cat, function(value, key) {
+                    catID.push(value["CategoryID"]);
+                    catCount.push(value["Count"]);
+                });
             });
     };
 });

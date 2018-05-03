@@ -19,3 +19,16 @@
 h3 {
     font-weight: bold;
 }
+
+/*
+hover code from: https://stackoverflow.com/questions/18052838/enlarging-images-using-css-or-javascript
+*/
+img:hover {
+    border: 5px solid #f4f4f4;
+    transform: scale(2.5);
+    -webkit-transition-duration: .75s;
+    -moz-transition-duration: .75s;
+    -o-transition-duration: .75s;
+    transition-duration: .75s;
+    z-index: 3;
+}
