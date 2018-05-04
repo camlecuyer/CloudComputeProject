@@ -1,4 +1,4 @@
-var app = angular.module('reportResponse', ['ui.bootstrap']);
+var app = angular.module('reportResponse', ['ui.bootstrap', 'googlechart']);
 
 app.controller('login-control', function($scope, $http, $window)
 {
@@ -174,27 +174,85 @@ app.controller('report-control', function($scope, $http, $modal, $window) {
     };
 
     $scope.loadChart = function () {
+        $scope.buildChart = {};
+        $scope.catChart = {};
+
         $http.get("http://18.219.51.47/get_chart.php").then(
             function (result) {
                 var res = result.data.results[0];
                 var build = res.build;
                 var cat = res.cat;
 
-                var buildID = [];
-                var buildCount = [];
+                var buildRow = [];
 
-                angular.forEach(build, function(value, key) {
-                    buildID.push(value["BuildingID"]);
-                    buildCount.push(value["Count"]);
-                });
+                for(var i = 0; i < build.length; i++)
+                {
+                    var temp = {
+                        v: build[i]["BuildingID"]
+                    };
 
-                var catID = [];
-                var catCount = [];
+                    var temp2 = {
+                        v: build[i]["Count"]
+                    };
 
-                angular.forEach(cat, function(value, key) {
-                    catID.push(value["CategoryID"]);
-                    catCount.push(value["Count"]);
-                });
+                    var tempArr = [];
+                    tempArr.push(temp);
+                    tempArr.push(temp2);
+
+                    var c = {
+                        c: tempArr
+                    };
+
+                    buildRow[i] = c;
+                }
+
+                $scope.buildChart.type = "BarChart";
+                $scope.buildChart.options = {
+                    'title': 'Reports Per Building'
+                };
+                $scope.buildChart.data = {
+                    "cols": [
+                        {id: "Name", label: "Building ID", type: "string"},
+                        {id: "Count", label: "Count", type: "number"}
+                    ],
+                    "rows": buildRow
+                };
+
+                var catRow = [];
+
+                for(i = 0; i < cat.length; i++)
+                {
+                    temp = {
+                        v: cat[i]["CategoryID"]
+                    };
+
+                    temp2 = {
+                        v: cat[i]["Count"]
+                    };
+
+                    tempArr = [];
+                    tempArr.push(temp);
+                    tempArr.push(temp2);
+
+                    c = {
+                        c: tempArr
+                    };
+
+                    catRow[i] = c;
+                }
+
+                $scope.catChart.type = "BarChart";
+                $scope.catChart.options = {
+                    'title': 'Reports Per Category'
+                };
+                $scope.catChart.data = {
+                    "cols": [
+                        {id: "Name", label: "Category ID", type: "string"},
+                        {id: "Count", label: "Count", type: "number"}
+                    ],
+                    "rows": catRow
+                };
+
             });
     };
 });
