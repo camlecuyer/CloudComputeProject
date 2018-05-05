@@ -4,11 +4,11 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -28,6 +28,7 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 
+// Page for Task Activity
 public class TaskActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     static final String URL =  "http://18.219.51.47/";
@@ -61,6 +62,13 @@ public class TaskActivity extends AppCompatActivity {
 
         populateTasks();
     } // end onCreate
+
+    // Goes back to home page
+    public void back(View v)
+    {
+        startActivity(new Intent(TaskActivity.this,LoginActivity.class));
+        finish();
+    } // end back
 
     void populateTasks()
     {
@@ -115,12 +123,13 @@ public class TaskActivity extends AppCompatActivity {
                 });
 
         MySingleton.getInstance(appContext).addToRequestQueue(jsObjRequest);
-    } // end populate tasks
+    } // end populateTasks
 
-    void closeTask(View v) {
-
+    void closeTask(View v)
+    {
         ListView lv = findViewById(R.id.task_lst);
 
+        // CHecks if a row is selected before calling close task
         if(curPosition == -1) {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder.setMessage("Please select a task to close");
@@ -144,13 +153,15 @@ public class TaskActivity extends AppCompatActivity {
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
             return;
-        }
+        } // end if
 
+        // Starts dialog for closing task
         pDialog = new ProgressDialog(TaskActivity.this, R.style.AppTheme);
         pDialog.setIndeterminate(true);
         pDialog.setMessage("Closing Task...");
         pDialog.show();
 
+        // Adds correct function to URL
         String url = URL + "put_task.php";
 
         StringRequest strRequest = new StringRequest(Request.Method.POST, url,
@@ -160,6 +171,8 @@ public class TaskActivity extends AppCompatActivity {
                     public void onResponse(String response)
                     {
                         pDialog.dismiss();
+
+                        // Gets message from JSOn
                         try
                         {
                             JSONObject temp = new JSONObject(response);
@@ -191,8 +204,8 @@ public class TaskActivity extends AppCompatActivity {
 
                 return params;
             }
-        };
+        }; // end StringRequest
 
         MySingleton.getInstance(this).addToRequestQueue(strRequest);
-    }
-}
+    } // end closeTask
+} // end TaskActivity

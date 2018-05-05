@@ -1,5 +1,6 @@
 package com.sourcey.clouldcomputing;
 
+// Data holder class for Building and Category data
 public class crrDataHolder {
     private String name;
     private String id;

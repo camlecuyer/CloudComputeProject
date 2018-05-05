@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,8 +24,9 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SignupActivity extends AppCompatActivity {
-    private static final String TAG = "SignupActivity";
+// Page for Employee Login
+public class SignupActivity extends AppCompatActivity
+{
     private ProgressDialog pDialog;
     static final String URL =  "http://18.219.51.47/";
 
@@ -41,6 +41,7 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
 
+        // Call login if Login button pressed
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,50 +49,54 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
+        // Move to Report Sign in page
         reportLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Finish the registration screen and return to the Login activity
                 Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                 startActivity(intent);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
-    }
+    } // end onCreate
 
-    public void login() {
-        Log.d(TAG, "Login");
-
-        if (!validate()) {
-            Toast.makeText(getBaseContext(), "Login failed, please fill out all fields", Toast.LENGTH_LONG);
+    public void login()
+    {
+        // Validates data
+        if (!validate())
+        {
+            Toast.makeText(getBaseContext(), "Login failed, please fill out all fields", Toast.LENGTH_LONG).show();
             return;
-        }
+        } // end if
 
         loginButton.setEnabled(false);
 
+        // Start progress dialog for Login REST call
         pDialog = new ProgressDialog(SignupActivity.this, R.style.AppTheme);
         pDialog.setIndeterminate(true);
         pDialog.setMessage("Authenticating...");
         pDialog.show();
 
+        // Add correct function call to end of URL
         String url = URL + "get_user.php";
 
+        // String request is used as JSONRequest does not accept parameters
         StringRequest strRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>()
                 {
                     @Override
                     public void onResponse(String response)
                     {
+                        // Dismiss dialog and attempt to retrieve message
                         pDialog.dismiss();
-                        JSONObject temp = null;
+                        JSONObject temp;
+
                         try
                         {
                             temp = new JSONObject(response);
 
-                            Toast.makeText(getApplicationContext(), temp.getString("message"), Toast.LENGTH_SHORT).show();
-                            loginButton.setEnabled(true);
-
+                            // If successful move to task page
                             if(temp.getString("success").equals("1"))
                             {
                                 Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
@@ -99,6 +104,11 @@ public class SignupActivity extends AppCompatActivity {
                                 finish();
                                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                             }
+                            else
+                            {
+                                Toast.makeText(getApplicationContext(), temp.getString("message"), Toast.LENGTH_SHORT).show();
+                                loginButton.setEnabled(true);
+                            } // end if
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -125,7 +135,7 @@ public class SignupActivity extends AppCompatActivity {
 
                 return params;
             }
-        };
+        }; // end StringRequest
 
         MySingleton.getInstance(this).addToRequestQueue(strRequest);
     }
@@ -134,9 +144,10 @@ public class SignupActivity extends AppCompatActivity {
     public void onBackPressed() {
         // Disable going back to the MainActivity
         moveTaskToBack(true);
-    }
+    } // end onBackPressed
 
-    public boolean validate() {
+    // Validates fields
+    private boolean validate() {
         boolean valid = true;
 
         String email = emailInput.getText().toString();
@@ -159,5 +170,5 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         return valid;
-    }
-}
+    } // end validate
+} // end SignupActivity

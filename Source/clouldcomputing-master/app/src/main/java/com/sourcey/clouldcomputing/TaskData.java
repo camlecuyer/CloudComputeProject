@@ -1,5 +1,6 @@
 package com.sourcey.clouldcomputing;
 
+// Holds the data for Tasks
 public class TaskData {
     private String taskID;
     private String divID;

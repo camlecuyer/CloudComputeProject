@@ -1,9 +1,7 @@
 package com.sourcey.clouldcomputing;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import android.content.Intent;
 import android.view.View;
@@ -15,10 +13,9 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LoginActivity extends AppCompatActivity {
-    private static final String TAG = "LoginActivity";
-    private static final int REQUEST_SIGNUP = 0;
-
+// Page for Report Sign im
+public class LoginActivity extends AppCompatActivity
+{
     @BindView(R.id.input_name) EditText nameInput;
     @BindView(R.id.input_email) EditText emailInput;
     @BindView(R.id.input_mobile) EditText mobileInput;
@@ -31,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+        // If sign in button clicked call signIn
         reportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // Move to Employee Login page
         loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,13 +47,14 @@ public class LoginActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
-    }
+    } // end onCreate
 
-    public void signIn() {
-        Log.d(TAG, "SignIn");
-
-        if (!validate()) {
-            Toast.makeText(getBaseContext(), "Sign in failed, please fill out all fields", Toast.LENGTH_LONG);
+    public void signIn()
+    {
+        // Validates fields
+        if (!validate())
+        {
+            Toast.makeText(getBaseContext(), "Sign in failed, please fill out all fields", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -62,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
         String mobile = mobileInput.getText().toString();
         String name = nameInput.getText().toString();
 
+        // Adds extra data to intent call
         Intent intent = new Intent(getApplicationContext(), ReportActivity.class);
         intent.putExtra("EXTRA_EMAIL", email);
         intent.putExtra("EXTRA_MOBILE", mobile);
@@ -69,16 +70,16 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-
-    }
+    } // end signIn
 
     @Override
     public void onBackPressed() {
         // Disable going back to the MainActivity
         moveTaskToBack(true);
-    }
+    } // end onBackPressed
 
-    public boolean validate() {
+    // Validates fields
+    private boolean validate() {
         boolean valid = true;
 
         String email = emailInput.getText().toString();
@@ -110,5 +111,5 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         return valid;
-    }
-}
+    } // end validate
+} // end LoginActivity

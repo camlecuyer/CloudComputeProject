@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+// Adapter to populate ListView
 public class TaskAdapter extends ArrayAdapter
 {
     // holds context
@@ -37,7 +38,7 @@ public class TaskAdapter extends ArrayAdapter
         View rowView = null;
         if (inflater != null) {
             rowView = inflater.inflate(R.layout.task_layout, parent, false);
-        }
+        } // end if
 
         // finds the correct element and assigns data
         TextView build = rowView.findViewById(R.id.txt_build);
