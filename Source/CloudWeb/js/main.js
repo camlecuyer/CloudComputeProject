@@ -5,6 +5,7 @@ app.controller('login-control', function($scope, $http, $window)
     $scope.login = function()
     {
         if ($scope.user != null && $scope.password != null) {
+            // Uses JQuery call as Angular and PHP don't talk easily when using parameters
             $.post("http://18.219.51.47/get_user.php", {
                     email: $scope.user, pass: $scope.password
                 },
@@ -15,11 +16,14 @@ app.controller('login-control', function($scope, $http, $window)
                         $window.location.href = "./main.html";
                     }
                     else {
-                        window.alert("Incorrect Login")
+                        $window.alert("Incorrect Login")
                         console.log(res["message"]);
-                    }
+                    } // end if
                 });
         }
+        else {
+            $window.alert("Please Enter Login Details")
+        } // end if
     };
 });
 
@@ -37,10 +41,11 @@ app.controller('report-control', function($scope, $http, $modal, $window) {
         	if(result.data.success == "1")
         	{
         	    $scope.issues = result.data.results[0].issues;
-        	}
+        	} // end if
 	    });
     };
 
+    // Functions for handling collapsing divs
     $scope.collapseIssue = function() {
         this.cols.expanded = !this.cols.expanded;
      };
@@ -59,6 +64,7 @@ app.controller('report-control', function($scope, $http, $modal, $window) {
 
     $scope.addTask = function (issue) {
         var issueToConvert = issue;
+
 
         $modal.open({
             templateUrl: "addTask.html",
@@ -87,16 +93,17 @@ app.controller('report-control', function($scope, $http, $modal, $window) {
                         $scope.buildings.forEach((build, index) => {
                             if ($scope.selectedBuild == build.BuildingName) {
                                 buildIndex = index;
-                            }
+                            } // end if
                         });
 
                         $scope.divisions.forEach((divs, index) => {
                             if ($scope.selectedDiv == divs.DivisionName) {
                                 divIndex = index;
-                            }
+                            } // end if
                         });
-                        $log.log($scope.buildings[buildIndex].BuildingID + "," + $scope.divisions[divIndex].DivisionID + "," + $scope.selectedFloor);
+                        //$log.log($scope.buildings[buildIndex].BuildingID + "," + $scope.divisions[divIndex].DivisionID + "," + $scope.selectedFloor);
 
+                        // Uses JQuery call as Angular and PHP don't talk easily when using parameters
                         $.post("http://18.219.51.47/post_task.php", {
                                 divid: $scope.divisions[divIndex].DivisionID,
                                 buildid: $scope.buildings[buildIndex].BuildingID,
@@ -116,44 +123,39 @@ app.controller('report-control', function($scope, $http, $modal, $window) {
                                 }
                                 else {
                                     window.alert("Task Creation Failed");
-                                    console.log(res["message"]);
+                                    //console.log(res["message"]);
                                 }
                             });
                         $modalInstance.dismiss('cancel');
                     }
                     else {
                         window.alert("Please fill out all fields. For Outside, choose any valid floor.")
-                    }
+                    } // end if
                 };
 
                 $scope.close = function () {
-
                     $modalInstance.dismiss('cancel');
                 };
             }
         });
     };
 
-    $scope.selectIssue = function(index) {
-        $scope.selected = $scope.issues[index];
-        console.log($scope.selected);
-    };
-
     $scope.getTasks = function () {
         $http.get("http://18.219.51.47/get_tasks.php").then(function (result) {
             if (result.data.success == "1") {
                 $scope.tasks = result.data.results[0].tasks;
-            }
+            } // end if
         });
 
         $http.get("http://18.219.51.47/get_closedtasks.php").then(function (result) {
             if (result.data.success == "1") {
                 $scope.closedtasks = result.data.results[0].tasks;
-            }
+            } // end if
         });
     };
 
     $scope.closeIssue = function (issue) {
+        // Uses JQuery call as Angular and PHP don't talk easily when using parameters
         $.post("http://18.219.51.47/put_issue.php", {
                 issueid: issue.IssueID
             },
@@ -169,7 +171,7 @@ app.controller('report-control', function($scope, $http, $modal, $window) {
                 else {
                     window.alert("Issue not closed");
                     console.log(res["message"]);
-                }
+                } // end if
             });
     };
 
@@ -185,6 +187,7 @@ app.controller('report-control', function($scope, $http, $modal, $window) {
 
                 var buildRow = [];
 
+                // Builds data structure for use with charts
                 for(var i = 0; i < build.length; i++)
                 {
                     var temp = {
@@ -204,8 +207,9 @@ app.controller('report-control', function($scope, $http, $modal, $window) {
                     };
 
                     buildRow[i] = c;
-                }
+                } // end loop
 
+                // Chart builder
                 $scope.buildChart.type = "BarChart";
                 $scope.buildChart.options = {
                     'title': 'Reports Per Building'
@@ -220,6 +224,7 @@ app.controller('report-control', function($scope, $http, $modal, $window) {
 
                 var catRow = [];
 
+                // Builds data structure for use with charts
                 for(i = 0; i < cat.length; i++)
                 {
                     temp = {
@@ -239,8 +244,9 @@ app.controller('report-control', function($scope, $http, $modal, $window) {
                     };
 
                     catRow[i] = c;
-                }
+                } // end loop
 
+                // Chart builder
                 $scope.catChart.type = "BarChart";
                 $scope.catChart.options = {
                     'title': 'Reports Per Category'
@@ -252,7 +258,6 @@ app.controller('report-control', function($scope, $http, $modal, $window) {
                     ],
                     "rows": catRow
                 };
-
             });
     };
 });

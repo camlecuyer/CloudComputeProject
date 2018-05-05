@@ -31,27 +31,52 @@
                     <h2>Add Task:</h2>
                 </div>
                 <div class="modal-body" ng-init="init()">
-                    <div>
-                        <label>Task Description:</label><input ng-model="taskDesc"/>
+                    <div class="row">
+                        <div class="col-sm-1 col-md-1 col-lg-1"></div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <label>Task Description:</label>
+                        </div>
+                        <div class="col-sm-7 col-md-7 col-lg-7">
+                            <input ng-model="taskDesc"/>
+                        </div>
+                        <div class="col-sm-1 col-md-1 col-lg-1"></div>
                     </div>
                     <div>
-                        <div>
-                            <label>Building:</label>
-                            <select ng-model="selectedBuild">
-                                <option ng-repeat="building in buildings">{{building.BuildingName}}</option>
-                            </select>
+                        <div class="row">
+                            <div class="col-sm-1 col-md-1 col-lg-1"></div>
+                            <div class="col-sm-3 col-md-3 col-lg-3">
+                                <label>Building:</label>
+                            </div>
+                            <div class="col-sm-7 col-md-7 col-lg-7">
+                                <select class="buildSelect" ng-model="selectedBuild">
+                                    <option ng-repeat="building in buildings">{{building.BuildingName}}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-1 col-md-1 col-lg-1"></div>
                         </div>
-                        <div>
-                            <label>Floor Number:</label>
-                            <select ng-model="selectedFloor">
-                                <option ng-repeat="floor in floors">{{floor}}</option>
-                            </select>
+                        <div class="row">
+                            <div class="col-sm-1 col-md-1 col-lg-1"></div>
+                            <div class="col-sm-3 col-md-3 col-lg-3">
+                                <label>Floor Number:</label>
+                            </div>
+                            <div class="col-sm-7 col-md-7 col-lg-7">
+                                <select ng-model="selectedFloor">
+                                    <option ng-repeat="floor in floors">{{floor}}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-1 col-md-1 col-lg-1"></div>
                         </div>
-                        <div>
-                            <label>Division:</label>
-                            <select ng-model="selectedDiv">
-                                <option ng-repeat="division in divisions">{{division.DivisionName}}</option>
-                            </select>
+                        <div class="row">
+                            <div class="col-sm-1 col-md-1 col-lg-1"></div>
+                            <div class="col-sm-3 col-md-3 col-lg-3">
+                                <label>Division:</label>
+                            </div>
+                            <div class="col-sm-7 col-md-7 col-lg-7">
+                                <select class="buildSelect" ng-model="selectedDiv">
+                                    <option ng-repeat="division in divisions">{{division.DivisionName}}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-1 col-md-1 col-lg-1"></div>
                         </div>
                     </div>
                 </div>
@@ -64,66 +89,74 @@
             </div>
         </script>
         <!-- End Template -->
-        <div class="navbar">
-            <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
-                <li><a data-toggle="tab" href="#issues">New Issues</a></li>
-                <li><a data-toggle="tab" href="#charts">Charts</a></li>
-            </ul>
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="navbar">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+                        <li><a data-toggle="tab" href="#issues">New Issues</a></li>
+                        <li><a data-toggle="tab" href="#charts">Charts</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <div class="tab-content">
             <div id="home" class="tab-pane fade in active">
                 <div class="row">
                     <div class="col-sm-1 col-md-1 col-lg-1"></div>
                     <div class="col-sm-4 col-md-5 col-lg-5">
-                        <h3>Current Tasks:</h3>
-                        <div>
-                            <!--Task list-->
-                            <ul class="listItem">
-                                <li data-ng-repeat="task in tasks" ng-init="homeCol = {}">
-                                    <div>
-                                        <div>Date Opened: {{task.TaskDateOpened}}</div>
-                                        <div>Description: {{task.TaskDesc}}</div>
-                                        <div>Division: {{task.DivisionID}}</div>
-                                        <div>Building: {{task.BuildingID}}, Floor: {{task.TaskFloorNumber}}</div>
+                        <div class="center">
+                            <h3>Current Tasks:</h3>
+                            <div>
+                                <!--Task list-->
+                                <ul class="listItem">
+                                    <li data-ng-repeat="task in tasks" ng-init="homeCol = {}">
                                         <div>
-                                            <a href="#" ng-click="collapseTaskHome()">Details</a>
+                                            <div>Date Opened: {{task.TaskDateOpened}}</div>
+                                            <div>Description: {{task.TaskDesc}}</div>
+                                            <div>Division: {{task.DivisionID}}</div>
+                                            <div>Building: {{task.BuildingID}}, Floor: {{task.TaskFloorNumber}}</div>
+                                            <div>
+                                                <a href="#" ng-click="collapseTaskHome()">Details</a>
+                                            </div>
+                                            <div ng-show="homeCol.expanded">
+                                                <div>Task ID: {{task.TaskID}}</div>
+                                                <div>Issue ID: {{task.IssueID}}</div>
+                                                <div>Task Location:{{task.TaskLocation}}</div>
+                                            </div>
                                         </div>
-                                        <div ng-show="homeCol.expanded">
-                                            <div>Task ID: {{task.TaskID}}</div>
-                                            <div>Issue ID: {{task.IssueID}}</div>
-                                            <div>Task Location:{{task.TaskLocation}}</div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="col-sm-1 col-md-1 col-lg-1"></div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <h3>Recently Completed Tasks:</h3>
-                        <div>
-                            <!--Completed task list-->
-                            <ul class="listItem">
-                                <li data-ng-repeat="closedtask in closedtasks" ng-init="homeClosed = {}">
-                                    <div>
-                                        <div>Date Closed: {{closedtask.TaskDateClosed}}</div>
-                                        <div>Description: {{closedtask.TaskDesc}}</div>
-                                        <div>Division: {{closedtask.DivisionID}}</div>
-                                        <div>Building: {{closedtask.BuildingID}}, Floor:
-                                            {{closedtask.TaskFloorNumber}}
-                                        </div>
+                        <div class="center">
+                            <h3>Recently Completed Tasks:</h3>
+                            <div>
+                                <!--Completed task list-->
+                                <ul class="listItem">
+                                    <li data-ng-repeat="closedtask in closedtasks" ng-init="homeClosed = {}">
                                         <div>
-                                            <a href="#" ng-click="collapseTaskClosed()">Details</a>
+                                            <div>Date Closed: {{closedtask.TaskDateClosed}}</div>
+                                            <div>Description: {{closedtask.TaskDesc}}</div>
+                                            <div>Division: {{closedtask.DivisionID}}</div>
+                                            <div>Building: {{closedtask.BuildingID}}, Floor:
+                                                {{closedtask.TaskFloorNumber}}
+                                            </div>
+                                            <div>
+                                                <a href="#" ng-click="collapseTaskClosed()">Details</a>
+                                            </div>
+                                            <div ng-show="homeClosed.expanded">
+                                                <div>Task ID: {{closedtask.TaskID}}</div>
+                                                <div>Issue ID: {{closedtask.IssueID}}</div>
+                                                <div>Task Location:{{closedtask.TaskLocation}}</div>
+                                            </div>
                                         </div>
-                                        <div ng-show="homeClosed.expanded">
-                                            <div>Task ID: {{closedtask.TaskID}}</div>
-                                            <div>Issue ID: {{closedtask.IssueID}}</div>
-                                            <div>Task Location:{{closedtask.TaskLocation}}</div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="col-sm-1 col-md-1 col-lg-1"></div>
@@ -133,46 +166,49 @@
                 <div class="row">
                     <div class="col-sm-1 col-md-1 col-lg-1"></div>
                     <div class="col-sm-4 col-md-5 col-lg-5">
-                        <h3>New Issues:</h3>
-                        <div>
-                            <!--New issues list-->
-                            <ul class="listItem">
-                                <li data-ng-repeat="issue in issues" ng-init="cols = {}">
-                                    <div>
-                                        <div>Date Opened: {{issue.IssueDateOpened}}</div>
-                                        <div>Issue Description: {{issue.IssueDesc}}</div>
-                                        <div>Category ID: {{issue.CategoryID}}</div>
-                                        <div>Building ID: {{issue.BuildingID}}, Floor: {{issue.IssueFloorNumber}}</div>
+                        <div class="center">
+                            <h3>New Issues:</h3>
+                            <div>
+                                <!--New issues list-->
+                                <ul class="listItem">
+                                    <li data-ng-repeat="issue in issues" ng-init="cols = {}">
                                         <div>
-                                            <a href="#" ng-click="collapseIssue()">Details</a>
-                                        </div>
-                                        <div ng-show="cols.expanded">
-                                            <div>Issue ID: {{issue.IssueID}}</div>
-                                            <div>Issue First Name: {{issue.IssueFirstName}}</div>
-                                            <div>Issue Phone: {{issue.IssuePhone}}</div>
-                                            <div>Issue Email: {{issue.IssueEmail}}</div>
-                                            <div>Issue Location: {{issue.IssueLocation}}</div>
+                                            <div>Date Opened: {{issue.IssueDateOpened}}</div>
+                                            <div>Issue Description: {{issue.IssueDesc}}</div>
+                                            <div>Category ID: {{issue.CategoryID}}</div>
+                                            <div>Building ID: {{issue.BuildingID}}, Floor: {{issue.IssueFloorNumber}}</div>
                                             <div>
-                                                <img src="http://18.219.51.47/get_photos.php?id={{issue.PhotoID}}"/>
+                                                <a href="#" ng-click="collapseIssue()">Details</a>
                                             </div>
+                                            <div ng-show="cols.expanded">
+                                                <div>Issue ID: {{issue.IssueID}}</div>
+                                                <div>Issue First Name: {{issue.IssueFirstName}}</div>
+                                                <div>Issue Phone: {{issue.IssuePhone}}</div>
+                                                <div>Issue Email: {{issue.IssueEmail}}</div>
+                                                <div>Issue Location: {{issue.IssueLocation}}</div>
+                                                <div class="imgHolder">
+                                                    <img src="http://18.219.51.47/get_photos.php?id={{issue.PhotoID}}"/>
+                                                </div>
+                                            </div>
+                                            <input class="controlButton" type="button" value="Add Task" ng-click="addTask(issue)">
+                                            <input class="controlButton" type="button" value="Close Selected Issue" ng-click="closeIssue(issue)">
                                         </div>
-                                        <input type="button" value="Add Task" ng-click="addTask(issue)">
-                                        <input type="button" value="Close Selected Issue" ng-click="closeIssue(issue)">
-                                    </div>
-                                </li>
-                            </ul>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="col-sm-1 col-md-1 col-lg-1"></div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <h3>Tasks:</h3>
-                        <label>Search:</label>
-                        <input type="text">
-                        <input type="button" value="Search">
-                        <div>
-                            <!--Task list-->
-                            <ul class="listItem">
-                                <li data-ng-repeat="task in tasks" ng-init="taskCol = {}">
+                        <div class="center">
+                            <h3>Tasks:</h3>
+                            <label>Search:</label>
+                            <input type="text">
+                            <input type="button" value="Search">
+                            <div>
+                                <!--Task list-->
+                                <ul class="listItem">
+                                    <li data-ng-repeat="task in tasks" ng-init="taskCol = {}">
                                         <div>
                                             <div>Date Opened: {{task.TaskDateOpened}}</div>
                                             <div>Description: {{task.TaskDesc}}</div>
@@ -188,7 +224,8 @@
                                             </div>
                                         </div>
                                     </li>
-                            </ul>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="col-sm-1 col-md-1 col-lg-1"></div>
@@ -198,16 +235,34 @@
                 <div class="row">
                     <div class="col-sm-1 col-md-1 col-lg-1"></div>
                     <div class="col-sm-10 col-md-10 col-lg-10">
-                        <h3>Charts:</h3>
-                        <div google-chart chart="buildChart" class="chart">
-
-                        </div>
-                        <div google-chart chart="catChart" class="chart">
-
+                        <div class="center">
+                            <div class="row">
+                                <div class="col-sm-1 col-md-1 col-lg-1"></div>
+                                <div class="col-sm-4 col-md-4 col-lg-4">
+                                    <h3>Charts:</h3>
+                                </div>
+                                <div class="col-sm-2 col-md-2 col-lg-2"></div>
+                                <div class="col-sm-4 col-md-4 col-lg-4"></div>
+                                <div class="col-sm-1 col-md-1 col-lg-1"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-1 col-md-1 col-lg-1"></div>
+                                <div class="col-sm-4 col-md-4 col-lg-4">
+                                    <div google-chart chart="buildChart" class="chart">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2 col-md-2 col-lg-2"></div>
+                                <div class="col-sm-4 col-md-4 col-lg-4">
+                                    <div google-chart chart="catChart" class="chart">
+                                    </div>
+                                </div>
+                                <div class="col-sm-1 col-md-1 col-lg-1"></div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-sm-1 col-md-1 col-lg-1"></div>
                 </div>
+
             </div>
         </div>
     </body>

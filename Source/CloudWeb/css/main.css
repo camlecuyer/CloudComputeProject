@@ -4,21 +4,55 @@
     width: -moz-fit-content;
 }
 
+.controlButton {
+    padding: 5px 25px;
+    background: #eeee44;
+    border-radius: 15px;
+    margin: 10px 10px 5px 5px;
+}
+
+.navbar {
+    background: #dddddd;
+    float: none;
+}
+
+.nav {
+    width: fit-content;
+    width: -moz-fit-content;
+    margin: 2px auto;
+}
+
 .center {
     background: #00cccc;
     border-radius: 20px;
     margin-top: 20px;
-    padding-bottom: 15px;
+    padding: 5px 5px 15px 10px;
+}
+
+.center a {
+    color: #448844;
 }
 
 .listItem li {
     border-bottom: solid black 2px;
     margin: 10px;
+    padding-bottom: 5px;
 }
 
 .chart {
     height: fit-content;
     width: 400px;
+    margin: 5px;
+}
+
+.imgHolder {
+    width: fit-content;
+    width: -moz-fit-content;
+    margin: 5px auto;
+}
+
+.buildSelect {
+    width: 100%;
 }
 
 h3 {
@@ -36,4 +70,8 @@ img:hover {
     -o-transition-duration: .75s;
     transition-duration: .75s;
     z-index: 3;
+}
+
+body {
+    background: #006666;
 }
