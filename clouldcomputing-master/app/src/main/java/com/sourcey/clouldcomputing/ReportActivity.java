@@ -189,12 +189,12 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
                                         if(buildings.get(buildSpin.getSelectedItemPosition()).getId().equals("Outsid"))
                                         {
                                             floorSpin.setEnabled(false);
-                                            floorSpin.setBackgroundColor(getResources().getColor(R.color.iron));
+                                            floorSpin.setBackgroundColor(getResources().getColor(R.color.monsoon));
                                         }
                                         else
                                         {
                                             floorSpin.setEnabled(true);
-                                            floorSpin.setBackgroundColor(getResources().getColor(R.color.primary));
+                                            floorSpin.setBackgroundColor(getResources().getColor(R.color.iron));
                                         }
                                     }
                                 }

@@ -26,16 +26,16 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme.Light" />
         <activity
             android:name=".SignupActivity"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme.Light" />
         <activity
             android:name=".TaskActivity"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme.Light" />
         <activity
             android:name=".ReportActivity"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme.Light" />
     </application>
 
 </manifest>

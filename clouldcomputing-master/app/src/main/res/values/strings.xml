@@ -18,11 +18,14 @@
     <string name="take_picture">Take Picture</string>
     <string name="category">Category:</string>
     <string name="category_description">Category Description:</string>
-    <string name="building">Building:</string>
     <string name="floor_number">Floor Number:</string>
     <string name="description">Description:</string>
     <string name="search">Search:</string>
     <string name="close_selected_task">Close Selected Task</string>
     <string name="floor">Floor:</string>
     <string name="date_opened">Date Opened:</string>
+    <string name="building">Building:</string>
+    <string name="division">Division:</string>
+    <string name="location">Location:</string>
+    <string name="username_email">Username/Email:</string>
 </resources>

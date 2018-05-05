@@ -29,8 +29,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginBottom="5sp"
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp">
+            android:layout_marginLeft="4sp"
+            android:layout_marginRight="4sp">
 
             <LinearLayout
                 android:layout_width="100sp"
@@ -84,7 +84,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="5sp">
+            android:layout_marginBottom="5sp"
+            android:layout_marginLeft="4sp"
+            android:layout_marginRight="4sp">
 
             <LinearLayout
                 android:layout_width="100sp"
@@ -141,8 +143,8 @@
             android:layout_height="wrap_content"
             android:text="@string/description"
             android:textColor="@color/black"
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
+            android:layout_marginLeft="4sp"
+            android:layout_marginRight="4sp"
             android:textSize="16sp" />
 
         <EditText
@@ -153,16 +155,16 @@
             android:inputType="textMultiLine"
             android:layout_marginTop="5sp"
             android:layout_marginBottom="8sp"
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"/>
+            android:layout_marginLeft="4sp"
+            android:layout_marginRight="4sp"/>
 
         <Button
             android:id="@+id/image_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/take_picture"
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"/>
+            android:layout_marginLeft="4sp"
+            android:layout_marginRight="4sp"/>
 
         <ImageView
             android:id="@+id/imageHolder"
@@ -176,7 +178,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/submit_report"
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"/>
+            android:layout_marginLeft="4sp"
+            android:layout_marginRight="4sp"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

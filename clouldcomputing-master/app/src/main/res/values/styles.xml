@@ -1,16 +1,16 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/primary</item>
+    <style name="AppTheme.Light" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/iron</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/jumbo</item>
 
-        <item name="android:windowBackground">@color/primary</item>
+        <item name="android:windowBackground">@color/iron</item>
 
         <item name="colorControlNormal">@color/jet</item>
         <item name="colorControlActivated">@color/monsoon</item>
@@ -19,13 +19,14 @@
         <item name="android:textColorPrimary">@color/jet</item>
 
         <item name="colorButtonNormal">@color/primary_darker</item>
-        <item name="android:colorButtonNormal">@color/primary_darker</item>
     </style>
 
-    <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">
+    <style name="AppTheme.Light.Dialog" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/oil</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/jumbo</item>
-        <item name="android:textColorPrimary">@color/jet</item>
-        <item name="android:background">@color/primary</item>
+
+        <item name="android:windowBackground">@color/oil</item>
     </style>
 
 </resources>
